@@ -1,6 +1,5 @@
 import { loggerOption } from "@/logger/loggerOption";
 import { generateSwaggerDoc } from "@/swagger";
-import fastifyMultipart from "@fastify/multipart";
 import { ValidationPipe } from "@nestjs/common";
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import {
@@ -23,7 +22,6 @@ async function bootstrap() {
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  await app.register(fastifyMultipart);
   generateSwaggerDoc(app);
 
   await app.listen(3000, "0.0.0.0");
