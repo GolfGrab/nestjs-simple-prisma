@@ -3,9 +3,10 @@ import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { PrismaModule } from "nestjs-prisma";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { CourseCategoriesModule } from './course-categories/course-categories.module';
 
 @Module({
-  imports: [PrismaModule.forRoot({ isGlobal: true })],
+  imports: [PrismaModule.forRoot({ isGlobal: true }), CourseCategoriesModule],
   controllers: [AppController],
   providers: [AppService],
 })
