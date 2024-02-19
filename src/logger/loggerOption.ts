@@ -1,6 +1,11 @@
-import { WinstonModuleOptions } from "nest-winston";
+import {
+  utilities as nestWinstonModuleUtilities,
+  WinstonModuleOptions,
+} from "nest-winston";
 import { format, transports } from "winston";
 import "winston-daily-rotate-file";
+
+const APP_NAME = "MyApp";
 
 export const loggerOption = {
   transports: [
@@ -28,11 +33,11 @@ export const loggerOption = {
     // console logs
     new transports.Console({
       format: format.combine(
-        format.cli(),
-        format.splat(),
         format.timestamp(),
-        format.printf((info) => {
-          return `${info.timestamp} ${info.level}: ${info.message}`;
+        format.ms(),
+        nestWinstonModuleUtilities.format.nestLike(APP_NAME, {
+          colors: true,
+          prettyPrint: true,
         }),
       ),
     }),

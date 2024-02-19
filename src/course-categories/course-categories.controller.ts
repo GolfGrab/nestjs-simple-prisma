@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Patch,
   Post,
@@ -17,8 +18,11 @@ export class CourseCategoriesController {
     private readonly courseCategoriesService: CourseCategoriesService,
   ) {}
 
+  private readonly logger = new Logger(CourseCategoriesController.name);
+
   @Post()
   create(@Body() createCourseCategoryDto: CreateCourseCategoryDto) {
+    this.logger.log("Creating a new course category");
     return this.courseCategoriesService.create(createCourseCategoryDto);
   }
 

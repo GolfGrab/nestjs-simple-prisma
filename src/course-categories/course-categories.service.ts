@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaService } from "nestjs-prisma";
 import { CreateCourseCategoryDto } from "./dto/create-course-category.dto";
 import { UpdateCourseCategoryDto } from "./dto/update-course-category.dto";
@@ -7,13 +7,7 @@ import { UpdateCourseCategoryDto } from "./dto/update-course-category.dto";
 export class CourseCategoriesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private readonly logger = new Logger("CourseCategoriesService");
-
   create(createCourseCategoryDto: CreateCourseCategoryDto) {
-    this.logger.debug(
-      "Creating a new course category",
-      createCourseCategoryDto,
-    );
     return this.prisma.courseCategory.create({
       data: createCourseCategoryDto,
     });

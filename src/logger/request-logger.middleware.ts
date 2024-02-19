@@ -11,6 +11,7 @@ export class RequestLoggerMiddleware implements NestMiddleware {
       if (statusCode >= 400) {
         this.logger.warn(
           `[${req.method}] ${req.url} - ${statusCode} - ${res.statusMessage}`,
+          "RequestLoggerMiddleware",
         );
       }
     });
