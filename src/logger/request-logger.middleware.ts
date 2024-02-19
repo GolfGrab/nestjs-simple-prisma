@@ -8,10 +8,16 @@ export class RequestLoggerMiddleware implements NestMiddleware {
   use(req: FastifyRequest["raw"], res: FastifyReply["raw"], next: () => void) {
     res.on("finish", () => {
       const statusCode = res.statusCode;
-      if (statusCode >= 400) {
+      if (statusCode >= 500) {
+        this.logger.error(
+          `[${req.method}] ${req.url} - ${statusCode} - ${res.statusMessage}`,
+          "InternalError",
+        );
+      }
+      if (statusCode >= 400 && statusCode < 500) {
         this.logger.warn(
           `[${req.method}] ${req.url} - ${statusCode} - ${res.statusMessage}`,
-          "RequestLoggerMiddleware",
+          "ClientError",
         );
       }
     });
