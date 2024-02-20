@@ -1,3 +1,4 @@
+import { Database } from "@/database/database";
 import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "nestjs-prisma";
 import { CreateCourseCategoryDto } from "./dto/create-course-category.dto";
@@ -5,7 +6,10 @@ import { UpdateCourseCategoryDto } from "./dto/update-course-category.dto";
 
 @Injectable()
 export class CourseCategoriesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly database: Database,
+  ) {}
 
   private readonly logger = new Logger("CourseCategoriesService");
 
@@ -15,12 +19,34 @@ export class CourseCategoriesService {
       createCourseCategoryDto,
     );
     return this.prisma.courseCategory.create({
-      data: createCourseCategoryDto,
+      data: {
+        ...createCourseCategoryDto,
+        CC_CreateTime: new Date(),
+        CC_CreateUser: "admin",
+        CC_ModifyTime: new Date(),
+        CC_ModifyUser: "admin",
+      },
     });
+    // const result = await this.database
+    //   .insertInto("CourseCategory")
+    //   .values({
+    //     ...createCourseCategoryDto,
+    //     CC_CreateTime: new Date(),
+    //     CC_CreateUser: "admin",
+    //     CC_ModifyTime: new Date(),
+    //     CC_ModifyUser: "admin",
+    //   })
+    //   .executeTakeFirstOrThrow();
+    // console.log("result", result);
+    // return result.insertId;
   }
 
   findAll() {
-    return `This action returns all courseCategories`;
+    return this.prisma.courseCategory.findMany();
+    // return this.database
+    //   .selectFrom("CourseCategory")
+    //   .selectAll("CourseCategory")
+    //   .execute();
   }
 
   findOne(id: number) {

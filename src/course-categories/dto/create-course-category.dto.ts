@@ -19,18 +19,6 @@ export class CreateCourseCategoryDto
 
   CC_DataStatus: number;
 
-  CC_CreateTime: string | Date;
-
-  CC_CreateUser: string;
-
-  CC_ModifyTime: string | Date;
-
-  CC_ModifyUser: string;
-
-  CC_DeletedTime?: string | Date | null;
-
-  CC_DeletedUser?: string | null;
-
   CC_Version?: number | null;
 
   CC_TrainingDetail?: string | null;
